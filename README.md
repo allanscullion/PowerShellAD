@@ -100,4 +100,33 @@ EXAMPLE
 
     .\LocalAdminAudit.ps1 -file Test.csv
 
+### ArchiveSubFolders.ps1 ###
+
+Archive all sub folders into individual zip files then delete the source folders
+
+*WARNING* This script will zip all subfolders then each one without prompting.
+** Do not run this script from the root of any drive. **
+
+For example:
+
+Source "Folder A" contains the following sub folders and files:
+
+    Folder1
+    Folder2
+    Folder3
+    File1.txt
+    File2.csv
+
+After running this script the contents of "Folder A" will be:
+
+    Folder1.zip
+    Folder2.zip
+    Folder3.zip
+    File1.txt
+    File2.csv
+
+Individual files in the source folder are left untouched
+
+Requires 7-Zip to be installed in the default path "C:\Program Files\7-Zip\7z.exe"
+
 [psad]:http://blogs.msdn.com/b/rkramesh/archive/2012/01/17/how-to-add-active-directory-module-in-powershell-in-windows-7.aspx
