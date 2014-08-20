@@ -14,6 +14,8 @@ Useful Active Directory Tasks Scripted in PowerShell 2
     *   [ArchiveSubFolders](#archivesubfolders)
     *   [GetWindowsXPList](#getwindowsxplist)
     *   [GetRebootTime](#getreboottime)
+    *   [ServiceCheck](#servicecheck)
+    *   [WorkstationDiskSpaceCheck](#workstationdiskspacecheck)
 
 ## Requirements
 
@@ -175,5 +177,37 @@ PARAMETER file
 EXAMPLE
 
     .\GetRebootTime.ps1 -file Test.csv
+
+### ServiceCheck
+
+Check all computers in an OU and display services that run using the defined login name
+Useful if you need to reset the password of a service account and you need to know what
+is running using that account name.
+
+PARAMETER account
+
+    Account name to find
+
+PARAMETER ou
+
+    OU containing the computers you want to search
+
+EXAMPLE
+
+    .\ServiceCheck.ps1 -ou "dc=mydomain,dc=local"
+
+### WorkstationDiskSpaceCheck
+
+Check space on C: of all computers in the defined OU.
+Report any computer with less than 15GB
+You can set a default OU in the script (see below) to save having to define it every time
+
+PARAMETER ou
+
+    OU containing the computers you want to search
+
+EXAMPLE
+
+    .\WorkstationDiskSpaceCheck.ps1 -ou "ou=My OU,dc=mydomain,dc=local"
 
 [psad]:http://blogs.msdn.com/b/rkramesh/archive/2012/01/17/how-to-add-active-directory-module-in-powershell-in-windows-7.aspx
