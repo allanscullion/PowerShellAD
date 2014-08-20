@@ -38,31 +38,47 @@
     Prerequisite   : PowerShell V2, ActiveDirectory module, 7-Zip
 #>
 
-Set-Alias sz "C:\Program Files\7-Zip\7z.exe"
+$zipper = "C:\Program Files\7-Zip\7z.exe"
 
-echo "*************"
-echo "** WARNING **"
-echo "*************"
-echo "This script will Zip then *delete* all subfolders in the current working directory"
-echo "Are you really sure you want to do this?"
+if (Test-Path $zipper) {
+    
+    Set-Alias sz $zipper
 
-$choice = ""
-while ($choice -notmatch "[y|n]")
-{
-    $choice = Read-Host "Continue? (Y/N)"
-}
-
-if ($choice -eq "y")
-{
     $folders = Get-ChildItem | ?{ $_.PSIsContainer } | select name
 
-    if ($folders)
-    {
-        foreach ($folder in $folders)
-        {
-            $target = $folder.name
-            sz a -tzip $target $target
-            Remove-Item -Force -Confirm:$false -Recurse $target
+    if ($folders) {
+
+        "*************"
+        "** WARNING **"
+        "*************"
+        "This script will Zip then *delete* all subfolders in the current working directory"
+        "Are you really sure you want to do this?"
+
+        $choice = ""
+        while ($choice -notmatch "[y|n]") {
+            $choice = Read-Host "Continue? (Y/N)"
+        }
+
+        if ($choice -eq "y") {
+
+            foreach ($folder in $folders) {
+                $target = $folder.name
+                $zipfile = $target + ".zip"
+                sz a -tzip $target $target
+
+                #
+                # Only remove the folder if we have successfully creater a zip file
+                #
+                if (Test-Path $zipfile) {
+                    Remove-Item -Force -Confirm:$false -Recurse $target
+                }
+            }
         }
     }
+    else {
+        "ERROR: No folders found to archive"
+    }
+}
+else {
+    "ERROR: Could not find: " + $zipper
 }
